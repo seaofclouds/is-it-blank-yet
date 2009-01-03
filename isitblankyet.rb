@@ -84,7 +84,6 @@ __END__
     %title= "is it #{@name} yet?"
     %meta{'http-equiv'=>"content-type", :content=>"text/html; charset=UTF-8"}/
     %link{:href=>"/main.css", :media=>"all", :rel=>"stylesheet", :type=>"text/css"}/
-        
   %body
     .container
       #content
@@ -98,8 +97,7 @@ __END__
 @@ index
 %h2#status.content-header thinking
 .content-body
-  - if params[:name]
-    %h3#notifier
+  %h3#notifier
   %h4#countdown
   %script{:type=>"text/javascript"}
     :plain
@@ -117,16 +115,16 @@ __END__
             var hour = (Math.floor(remain/3600))%24;
             var minute = (Math.floor(remain/60))%60;
             var second = (Math.floor(remain/1))%60;
-            countdown.innerHTML = (day > 0 ? day +" days " : "") + (hour > 0 ? hour +" hours " : "") + (minute > 0 ? minute +" minutes " : "") + (second > 0 ? second +" seconds " : "")
+            countdown.innerHTML = (day > 0 ? "<span class='countdown_day'><strong>"+day+"</strong> days</span> " : "") + (hour > 0 ? "<span class='countdown_hour'><strong>"+hour+"</strong> hours</span> " : "") + (minute > 0 ? "<span class='countdown_minute'><strong>"+minute+"</strong> minutes</span> " : "") + (second > 0 ? "<span class='countdown_second'><strong>"+second+"</strong> seconds</span> " : "")
             if (--remain < 0 ) { 
               clearInterval(timer); 
               document.body.id = "yes"; 
               status.innerHTML = "yes"; 
-              notifier.innerHTML = "it is #{@name}"
+              notifier.innerHTML = "it is <strong>#{@name}</strong>"
             } else {
               document.body.id = "no"; 
               status.innerHTML = "no"; 
-              notifier.innerHTML = "it is not #{@name}"
+              notifier.innerHTML = "it is not <strong>#{@name}</strong>, but it will be in"
             }
           },1000);          
       }
@@ -160,13 +158,16 @@ body
       :font-weight normal
       :font-size 13em
       :font-family georgia, serif
-    h3,h4
+    h3
       :font-weight normal
       :font-size 1.5em
       :padding-top .5em
     h4
-      :font-size 1.1em
+      :font-size 1.3em
+      :font-weight normal
       :margin-top 1em
+      strong
+        :font-size 1.2em
     .content-body
       :padding-top 3em
       :padding-bottom 8em
