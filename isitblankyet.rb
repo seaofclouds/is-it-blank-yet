@@ -10,29 +10,54 @@ not_found do
   redirect("/")
 end
 
+helpers do
+  def countdown_name
+    if params[:name]
+      @name = params[:name]
+    else 
+      if params[:hour]
+        @name = "#{params[:year]}/#{params[:month]}/#{params[:day]} #{params[:hour]}:#{params[:minute]}"
+      else
+        @name = "#{params[:year]}/#{params[:month]}/#{params[:day]}"
+      end
+    end
+  end
+end
+
 # === routes ===
 
 # index, today
 get '/' do
   t = Time.now
-  today = t.strftime("%Y/%m/%d/today")
-  redirect(today)
+  uri = t.strftime("%Y/%m/%d/today")
+  redirect(uri)
+end
+
+# special dates
+
+get '/valentine' do
+  uri = "2009/02/14/valentine's day"
+  redirect(uri)
 end
 
 # date
 get '/:year/:month/:day' do
+  countdown_name
   haml :index
 end
 # date,name
 get '/:year/:month/:day/:name' do
+  countdown_name
   haml :index
 end
 # time
 get '/:year/:month/:day/:hour::minute' do
+  countdown_name
   haml :index
 end
 # time,name
 get '/:year/:month/:day/:hour::minute/:name' do
+  countdown_name
   haml :index
 end
 
@@ -53,13 +78,7 @@ __END__
 !!! Strict
 %html{ :xmlns => "http://www.w3.org/1999/xhtml", :lang => "en", 'xml:lang' => "en" }
   %head
-    %title
-      = "is it "
-      - if params[:name]
-        = params[:name]
-      - else
-        = "#{params[:year]}/#{params[:month]}/#{params[:day]}"
-      = " yet?"
+    %title= "is it #{@name} yet?"
     %meta{'http-equiv'=>"content-type", :content=>"text/html; charset=UTF-8"}/
     %link{:href=>"/main.css", :media=>"all", :rel=>"stylesheet", :type=>"text/css"}/
         
@@ -100,19 +119,19 @@ __END__
               clearInterval(timer); 
               document.body.id = "yes"; 
               status.innerHTML = "yes"; 
-              notifier.innerHTML = "it is #{params[:name]}"
+              notifier.innerHTML = "it is #{@name}"
             } else {
               document.body.id = "no"; 
               status.innerHTML = "no"; 
-              notifier.innerHTML = "it is not #{params[:name]}"
+              notifier.innerHTML = "it is not #{@name}"
             }
           },1000);          
       }
       countdown(countdown_timeleft,
         { 
-          86400: "it will be #{params[:name]} tomorrow.",
-          10: "it will be #{params[:name]} in ten seconds",
-          0: "it is #{params[:name]}"
+          86400: "it will be #{@name} tomorrow.",
+          10: "it will be #{@name} in ten seconds",
+          0: "it is #{@name}"
         }
       );
       
