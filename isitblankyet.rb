@@ -12,9 +12,11 @@ end
 
 # === routes ===
 
-# index, english
+# index, today
 get '/' do
-  haml :index
+  t = Time.now
+  today = t.strftime("%Y/%m/%d/today")
+  redirect(today)
 end
 
 # date
@@ -61,7 +63,7 @@ __END__
     %meta{'http-equiv'=>"content-type", :content=>"text/html; charset=UTF-8"}/
     %link{:href=>"/main.css", :media=>"all", :rel=>"stylesheet", :type=>"text/css"}/
         
-  %body{:id => "no"}
+  %body
     .container
       #content
         = yield
@@ -72,10 +74,10 @@ __END__
             %a{:href=>"http://github.com/seaofclouds/is-it-blank-yet"} contribute
             
 @@ index
-%h2#status.content-header no
+%h2#status.content-header thinking
 .content-body
   - if params[:name]
-    %h3#notifier= "it is not #{params[:name]} yet"
+    %h3#notifier
   %h4#countdown
   %script{:type=>"text/javascript"}
     :plain
@@ -94,8 +96,16 @@ __END__
             var minute = (Math.floor(remain/60))%60;
             var second = (Math.floor(remain/1))%60;
             countdown.innerHTML = (day > 0 ? day +" days " : "") + (hour > 0 ? hour +" hours " : "") + (minute > 0 ? minute +" minutes " : "") + (second > 0 ? second +" seconds " : "")
-            if (messages[remain]) { notifier.innerHTML = messages[remain]; }
-            if (--remain < 0 ) { clearInterval(timer); document.body.id = "yes"; status.innerHTML = "yes";}
+            if (--remain < 0 ) { 
+              clearInterval(timer); 
+              document.body.id = "yes"; 
+              status.innerHTML = "yes"; 
+              notifier.innerHTML = "it is #{params[:name]}"
+            } else {
+              document.body.id = "no"; 
+              status.innerHTML = "no"; 
+              notifier.innerHTML = "it is not #{params[:name]}"
+            }
           },1000);          
       }
       countdown(countdown_timeleft,
@@ -113,6 +123,7 @@ __END__
   :margin 0
   :padding 0
 body
+  :background-color #555
   :text-align center
   :color #fff
   :font-size 80%
