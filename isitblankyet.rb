@@ -79,10 +79,10 @@ __END__
   %h4#countdown
   %script{:type=>"text/javascript"}
     :plain
-      var d = new Date();
-      var now = d.getTime();
-      var targetdate = Date.parse("#{params[:year]}/#{params[:month]}/#{params[:day]} #{params[:hour]}:#{params[:minute]}")
-      var date = Math.floor((targetdate-now)/1000);
+      var countdown_d = new Date();
+      var countdown_timenow = countdown_d.getTime();
+      var countdown_targetdate = Date.parse("#{params[:year]}/#{params[:month]}/#{params[:day]} #{params[:hour]}:#{params[:minute]}")
+      var countdown_timeleft = Math.floor((countdown_targetdate-countdown_timenow)/1000);
       function countdown(remain,messages) {
         var
           status = document.getElementById("status"),
@@ -98,7 +98,7 @@ __END__
             if (--remain < 0 ) { clearInterval(timer); document.body.id = "yes"; status.innerHTML = "yes";}
           },1000);          
       }
-      countdown(date,
+      countdown(countdown_timeleft,
         { 
           86400: "it will be #{params[:name]} tomorrow.",
           10: "it will be #{params[:name]} in ten seconds",
