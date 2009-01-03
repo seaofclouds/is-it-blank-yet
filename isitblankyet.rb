@@ -55,6 +55,11 @@ get '/:year/:month/:day/:hour::minute/:name' do
 end
 
 # special dates
+get '/timetofork' do
+  t = Time.now
+  uri = t.strftime("%Y/%m/%d/time to fork this code")
+  redirect(uri)
+end
 get '/valentine' do
   uri = "2009/02/14/valentine's%20day"
   redirect(uri)
