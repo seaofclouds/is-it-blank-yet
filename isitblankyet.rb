@@ -33,13 +33,6 @@ get '/' do
   redirect(uri)
 end
 
-# special dates
-
-get '/valentine' do
-  uri = "2009/02/14/valentine's day"
-  redirect(uri)
-end
-
 # date
 get '/:year/:month/:day' do
   countdown_name
@@ -59,6 +52,16 @@ end
 get '/:year/:month/:day/:hour::minute/:name' do
   countdown_name
   haml :index
+end
+
+# special dates
+get '/valentine' do
+  uri = "2009/02/14/valentine's%20day"
+  redirect(uri)
+end
+get '/timeforlost' do
+  uri = "2009/1/21/21:00/time%20for%20lost"
+  redirect(uri)
 end
 
 # stylesheets
