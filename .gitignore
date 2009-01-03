@@ -1,0 +1,6 @@
+*.ru
+*.yml
+*.log
+*.pid
+*.tmproj
+.DS_Store
