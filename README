@@ -1,0 +1,17 @@
+currently, this is a sloppy mess, but maybe you can help change that. fork the code and play!
+
+=== installation ===
+
+git clone git://github.com/seaofclouds/is-it-blank-yet.git
+
+ruby isitblankyet.rb
+
+visit the site in your web browser
+
+http://localhost:4567/2009/1/21/21:00/time%20for%20lost
+
+notice the customizable date, time and name: sweet.
+
+=== contact ===
+
+please send comments and questions to seaofclouds on twitter or github
